@@ -7,6 +7,7 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private float speed_base = 100f;
     private Rigidbody2D body;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,12 +18,17 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector2 ballPosition = transform.position;
+        if (ballPosition.y <= -120) {
+            BlockManager.lives--;
+            transform.position = Vector2.zero;
+            if(BlockManager.lives <= 0) body.velocity = Vector2.zero;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player")
         {
             Vector2 ballPosition = transform.position;
             Vector2 playerPosition = collision.transform.position;
